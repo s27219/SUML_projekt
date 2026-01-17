@@ -10,3 +10,4 @@ scikit-learn==1.4.2
 kagglehub
 kedro-datasets[pandas]
 pycaret==3.3.2
+kedro-datasets[binary,json]

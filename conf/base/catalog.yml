@@ -1,5 +1,6 @@
 raw_data:
   type: pandas.CSVDataset
   filepath: data/raw/raw_data.csv
-  save_args:
-    index: false
+
+eda_analysis:
+  type: MemoryDataset
