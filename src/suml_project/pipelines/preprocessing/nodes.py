@@ -128,25 +128,12 @@ def create_final_datasets(
         scaled_splits["y_test"],
     )
 
-
-###
-
 def balance_by_feature(
     df: pd.DataFrame,
     feature_column: str,
     target_ratio: float | None = None,
     random_state: int = 42,
 ) -> pd.DataFrame:
-    """
-    Balansuje DataFrame względem wybranej cechy (np. RainToday).
-
-    Args:
-        df: DataFrame do zbalansowania
-        feature_column: Kolumna po której balansujemy (np. 'RainToday')
-        target_ratio: Proporcja klasy mniejszościowej do większościowej
-                     None = pełne zbalansowanie 1:1
-        random_state: Seed dla reproducibility
-    """
     import numpy as np
 
     df = df.copy()
@@ -174,4 +161,3 @@ def balance_by_feature(
     np.random.shuffle(balanced_indices)
 
     return df.loc[balanced_indices]
-
