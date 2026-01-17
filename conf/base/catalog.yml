@@ -34,11 +34,11 @@ scaled_splits:
 
 label_encoders:
   type: pickle.PickleDataset
-  filepath: data/processed/label_encoders.pkl
+  filepath: models/label_encoders.pkl
 
 scaler:
   type: pickle.PickleDataset
-  filepath: data/processed/scaler.pkl
+  filepath: models/scaler.pkl
 
 X_train:
   type: pandas.CSVDataset
