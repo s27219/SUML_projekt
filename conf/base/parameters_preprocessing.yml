@@ -5,6 +5,7 @@ val_size: 0.1
 random_state: 42
 target_ratio: 1
 balance_feature: "RainTomorrow"
+iqr_multiplier: 1.5
 
 numeric_columns:
   - MinTemp

@@ -128,6 +128,7 @@ def create_final_datasets(
         scaled_splits["y_test"],
     )
 
+
 def balance_by_feature(
     df: pd.DataFrame,
     feature_column: str,
@@ -161,3 +162,32 @@ def balance_by_feature(
     np.random.shuffle(balanced_indices)
 
     return df.loc[balanced_indices]
+
+
+def remove_outliers(
+    df: pd.DataFrame,
+    target_column: str | None = None,
+    iqr_multiplier: float = 1.5,
+) -> pd.DataFrame:
+    df = df.copy()
+
+    numeric_cols = df.select_dtypes(include=["float64", "int64"]).columns.tolist()
+
+    if target_column and target_column in numeric_cols:
+        numeric_cols.remove(target_column)
+
+    Q1 = df[numeric_cols].quantile(0.25)
+    Q3 = df[numeric_cols].quantile(0.75)
+    IQR = Q3 - Q1
+
+    lower_bound = Q1 - iqr_multiplier * IQR
+    upper_bound = Q3 + iqr_multiplier * IQR
+
+    mask = ~((df[numeric_cols] < lower_bound) | (df[numeric_cols] > upper_bound)).any(axis=1)
+
+    df_cleaned = df[mask]
+
+    print(f"Removed {len(df) - len(df_cleaned)} outlier rows ({((len(df) - len(df_cleaned)) / len(df) * 100):.2f}%)")
+    print(f"Remaining rows: {len(df_cleaned)}")
+
+    return df_cleaned

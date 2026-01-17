@@ -40,6 +40,9 @@ scaler:
   type: pickle.PickleDataset
   filepath: models/scaler.pkl
 
+data_no_outliers:
+  type: MemoryDataset
+
 X_train:
   type: pandas.CSVDataset
   filepath: data/processed/X_train.csv

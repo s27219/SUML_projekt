@@ -10,6 +10,7 @@ from suml_project.pipelines.preprocessing.nodes import (
     split_features_target,
     split_train_val_test,
     balance_by_feature,
+    remove_outliers,
 )
 
 
@@ -35,8 +36,14 @@ def create_pipeline(**kwargs) -> Pipeline:
                 name="impute_missing_values_node",
             ),
             node(
+                func=remove_outliers,
+                inputs=["data_imputed", "params:target_column", "params:iqr_multiplier"],
+                outputs="data_no_outliers",
+                name="remove_outliers_node",
+            ),
+            node(
                 func=encode_categorical_features,
-                inputs=["data_imputed", "params:target_column"],
+                inputs=["data_no_outliers", "params:target_column"],
                 outputs=["data_encoded", "label_encoders"],
                 name="encode_categorical_features_node",
             ),
