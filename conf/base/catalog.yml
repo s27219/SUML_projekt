@@ -88,3 +88,22 @@ best_model_info:
 best_model:
   type: pickle.PickleDataset
   filepath: data/models/best_model.pkl
+
+# train_best_model
+production_model:
+  type: pickle.PickleDataset
+  filepath: models/production_model.pkl
+
+test_metrics:
+  type: json.JSONDataset
+  filepath: models/test_metrics.json
+
+test_predictions:
+  type: pandas.CSVDataset
+  filepath: data/models/test_predictions.csv
+  save_args:
+    index: false
+
+confusion_matrix:
+  type: pandas.CSVDataset
+  filepath: models/confusion_matrix.csv
