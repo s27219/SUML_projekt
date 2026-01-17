@@ -7,8 +7,8 @@ def create_pipeline(**kwargs) -> Pipeline:
         [
             node(
                 func=compare_and_select_models,
-                inputs=["X_train", "y_train", "X_test", "y_test"],
-                outputs="model_selection_result",
+                inputs=["X_train", "y_train", "X_val", "y_val"],
+                outputs=["model_comparison", "best_model_info", "best_model"],
                 name="compare_and_select_models",
             ),
         ]

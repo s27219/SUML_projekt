@@ -1,27 +1,25 @@
-import json
-from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Tuple
 
 import pandas as pd
-from pycaret.classification import setup, compare_models, pull, save_model, get_config
+from pycaret.classification import setup, compare_models, pull
 
 
 def compare_and_select_models(
     X_train: pd.DataFrame,
     y_train: pd.DataFrame,
-    X_test: pd.DataFrame,
-    y_test: pd.DataFrame,
-) -> Dict[str, Any]:
+    X_val: pd.DataFrame,
+    y_val: pd.DataFrame,
+) -> Tuple[pd.DataFrame, Dict[str, Any], Any]:
     train_data = X_train.copy().reset_index(drop=True)
     train_data["target"] = y_train.values.ravel()
 
-    test_data = X_test.copy().reset_index(drop=True)
-    test_data["target"] = y_test.values.ravel()
+    val_data = X_val.copy().reset_index(drop=True)
+    val_data["target"] = y_val.values.ravel()
 
     setup(
         data=train_data,
         target="target",
-        test_data=test_data,
+        test_data=val_data,
         index=False,
         preprocess=False,
         session_id=42,
@@ -30,13 +28,6 @@ def compare_and_select_models(
 
     best_model = compare_models(n_select=1, sort="AUC")
     comparison_df = pull()
-
-    output_dir = Path("data/models")
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    comparison_df.to_csv(output_dir / "model_comparison.csv", index=True)
-
-    save_model(best_model, str(output_dir / "best_model"))
 
     best_model_name = type(best_model).__name__
     best_model_params = best_model.get_params()
@@ -48,7 +39,4 @@ def compare_and_select_models(
         "metrics": {k: float(v) if isinstance(v, (int, float)) else str(v) for k, v in best_row.items()},
     }
 
-    with open(output_dir / "best_model_info.json", "w") as f:
-        json.dump(best_info, f, indent=2)
-
-    return {"best_model_name": best_model_name, "comparison_rows": len(comparison_df)}
+    return comparison_df, best_info, best_model

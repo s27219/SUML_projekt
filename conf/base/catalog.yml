@@ -77,5 +77,14 @@ y_test:
     index: false
 
 # model_selection
-model_selection_result:
-  type: MemoryDataset
+model_comparison:
+  type: pandas.CSVDataset
+  filepath: data/models/model_comparison.csv
+
+best_model_info:
+  type: json.JSONDataset
+  filepath: data/models/best_model_info.json
+
+best_model:
+  type: pickle.PickleDataset
+  filepath: data/models/best_model.pkl
