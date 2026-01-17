@@ -1,6 +1,77 @@
+# data_acquisition
 raw_data:
   type: pandas.CSVDataset
   filepath: data/raw/raw_data.csv
 
+# eda
 eda_analysis:
   type: MemoryDataset
+
+# preprocessing
+data_reduced_columns:
+  type: MemoryDataset
+
+data_no_target_nulls:
+  type: MemoryDataset
+
+data_imputed:
+  type: MemoryDataset
+
+data_encoded:
+  type: MemoryDataset
+
+features:
+  type: MemoryDataset
+
+target:
+  type: MemoryDataset
+
+data_splits:
+  type: MemoryDataset
+
+scaled_splits:
+  type: MemoryDataset
+
+label_encoders:
+  type: pickle.PickleDataset
+  filepath: data/processed/label_encoders.pkl
+
+scaler:
+  type: pickle.PickleDataset
+  filepath: data/processed/scaler.pkl
+
+X_train:
+  type: pandas.CSVDataset
+  filepath: data/processed/X_train.csv
+  save_args:
+    index: false
+
+X_val:
+  type: pandas.CSVDataset
+  filepath: data/processed/X_val.csv
+  save_args:
+    index: false
+
+X_test:
+  type: pandas.CSVDataset
+  filepath: data/processed/X_test.csv
+  save_args:
+    index: false
+
+y_train:
+  type: pandas.CSVDataset
+  filepath: data/processed/y_train.csv
+  save_args:
+    index: false
+
+y_val:
+  type: pandas.CSVDataset
+  filepath: data/processed/y_val.csv
+  save_args:
+    index: false
+
+y_test:
+  type: pandas.CSVDataset
+  filepath: data/processed/y_test.csv
+  save_args:
+    index: false
