@@ -4,7 +4,7 @@ test_size: 0.2
 val_size: 0.1
 random_state: 42
 target_ratio: 1
-balance_feature: "RainToday"
+balance_feature: "RainTomorrow"
 
 numeric_columns:
   - MinTemp
