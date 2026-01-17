@@ -6,6 +6,11 @@ random_state: 42
 target_ratio: 1
 balance_feature: "RainTomorrow"
 
+columns_to_drop:
+  - Pressure9am
+  - Humidity9am
+  - RainToday
+
 numeric_columns:
   - MinTemp
   - MaxTemp
@@ -13,13 +18,9 @@ numeric_columns:
   - WindGustSpeed
   - WindSpeed9am
   - WindSpeed3pm
-  - Humidity9am
   - Humidity3pm
-  - Pressure9am
   - Pressure3pm
   - Temp9am
   - Temp3pm
-  - month_sin
-  - month_cos
   - day_of_year_sin
   - day_of_year_cos

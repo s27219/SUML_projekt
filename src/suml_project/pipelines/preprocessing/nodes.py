@@ -13,14 +13,17 @@ def extract_date_features(df: pd.DataFrame) -> pd.DataFrame:
 
     df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
 
-    df["month_sin"] = np.sin(2 * np.pi * df["Date"].dt.month / 12)
-    df["month_cos"] = np.cos(2 * np.pi * df["Date"].dt.month / 12)
     df["day_of_year_sin"] = np.sin(2 * np.pi * df["Date"].dt.dayofyear / 365)
     df["day_of_year_cos"] = np.cos(2 * np.pi * df["Date"].dt.dayofyear / 365)
 
     df = df.drop(columns=["Date"])
 
     return df
+
+
+def drop_low_importance_features(df: pd.DataFrame, columns_to_drop: list[str]) -> pd.DataFrame:
+    cols = [c for c in columns_to_drop if c in df.columns]
+    return df.drop(columns=cols)
 
 
 def drop_high_missing_columns(df: pd.DataFrame, threshold: float) -> pd.DataFrame:

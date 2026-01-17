@@ -3,6 +3,7 @@ from kedro.pipeline import Pipeline, node
 from suml_project.pipelines.preprocessing.nodes import (
     create_final_datasets,
     drop_high_missing_columns,
+    drop_low_importance_features,
     drop_target_nulls,
     encode_categorical_features,
     extract_date_features,
@@ -48,9 +49,15 @@ def create_pipeline(**kwargs) -> Pipeline:
                 name="encode_categorical_features_node",
             ),
             node(
+                func=drop_low_importance_features,
+                inputs=["data_encoded", "params:columns_to_drop"],
+                outputs="data_feature_selected",
+                name="drop_low_importance_features_node",
+            ),
+            node(
                 func=balance_by_feature,
                 inputs=[
-                    "data_encoded",
+                    "data_feature_selected",
                     "params:balance_feature",
                     "params:target_ratio",
                     "params:random_state"

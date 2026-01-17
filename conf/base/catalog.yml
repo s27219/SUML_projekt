@@ -23,6 +23,9 @@ data_imputed:
 data_encoded:
   type: MemoryDataset
 
+data_feature_selected:
+  type: MemoryDataset
+
 features:
   type: MemoryDataset
 
