@@ -2,3 +2,11 @@ ipython>=8.10
 jupyterlab>=3.0
 notebook
 kedro~=1.1.1
+pandas
+numpy
+seaborn
+matplotlib
+scikit-learn==1.4.2
+kagglehub
+kedro-datasets[pandas]
+pycaret==3.3.2
