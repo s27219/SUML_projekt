@@ -9,6 +9,7 @@ from suml_project.pipelines.preprocessing.nodes import (
     scale_features,
     split_features_target,
     split_train_val_test,
+    balance_by_feature,
 )
 
 
@@ -40,8 +41,19 @@ def create_pipeline(**kwargs) -> Pipeline:
                 name="encode_categorical_features_node",
             ),
             node(
+                func=balance_by_feature,
+                inputs=[
+                    "data_encoded",
+                    "params:balance_feature",
+                    "params:target_ratio",
+                    "params:random_state"
+                ],
+                outputs="data_balanced",
+                name="balance_by_feature_node",
+            ),
+            node(
                 func=split_features_target,
-                inputs=["data_encoded", "params:target_column"],
+                inputs=["data_balanced", "params:target_column"],
                 outputs=["features", "target"],
                 name="split_features_target_node",
             ),

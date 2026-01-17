@@ -127,3 +127,51 @@ def create_final_datasets(
         scaled_splits["y_val"],
         scaled_splits["y_test"],
     )
+
+
+###
+
+def balance_by_feature(
+    df: pd.DataFrame,
+    feature_column: str,
+    target_ratio: float | None = None,
+    random_state: int = 42,
+) -> pd.DataFrame:
+    """
+    Balansuje DataFrame względem wybranej cechy (np. RainToday).
+
+    Args:
+        df: DataFrame do zbalansowania
+        feature_column: Kolumna po której balansujemy (np. 'RainToday')
+        target_ratio: Proporcja klasy mniejszościowej do większościowej
+                     None = pełne zbalansowanie 1:1
+        random_state: Seed dla reproducibility
+    """
+    import numpy as np
+
+    df = df.copy()
+
+    class_counts = df[feature_column].value_counts()
+    minority_class = class_counts.idxmin()
+    minority_count = class_counts[minority_class]
+
+    if target_ratio is None:
+        target_majority_count = minority_count
+    else:
+        target_majority_count = int(minority_count / target_ratio)
+
+    minority_indices = df[df[feature_column] == minority_class].index
+    majority_indices = df[df[feature_column] != minority_class].index
+
+    np.random.seed(random_state)
+    sampled_majority_indices = np.random.choice(
+        majority_indices,
+        size=min(target_majority_count, len(majority_indices)),
+        replace=False
+    )
+
+    balanced_indices = list(minority_indices) + list(sampled_majority_indices)
+    np.random.shuffle(balanced_indices)
+
+    return df.loc[balanced_indices]
+
