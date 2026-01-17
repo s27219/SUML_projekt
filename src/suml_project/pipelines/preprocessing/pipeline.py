@@ -5,6 +5,7 @@ from suml_project.pipelines.preprocessing.nodes import (
     drop_high_missing_columns,
     drop_target_nulls,
     encode_categorical_features,
+    extract_date_features,
     impute_missing_values,
     scale_features,
     split_features_target,
@@ -29,8 +30,14 @@ def create_pipeline(**kwargs) -> Pipeline:
                 name="drop_target_nulls_node",
             ),
             node(
-                func=impute_missing_values,
+                func=extract_date_features,
                 inputs="data_no_target_nulls",
+                outputs="data_with_date_features",
+                name="extract_date_features_node",
+            ),
+            node(
+                func=impute_missing_values,
+                inputs="data_with_date_features",
                 outputs="data_imputed",
                 name="impute_missing_values_node",
             ),

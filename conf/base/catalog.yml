@@ -14,6 +14,9 @@ data_reduced_columns:
 data_no_target_nulls:
   type: MemoryDataset
 
+data_with_date_features:
+  type: MemoryDataset
+
 data_imputed:
   type: MemoryDataset
 

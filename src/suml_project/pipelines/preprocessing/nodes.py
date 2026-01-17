@@ -1,8 +1,26 @@
 from typing import Any
 
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
+
+
+def extract_date_features(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    if "Date" not in df.columns:
+        return df
+
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+
+    df["month_sin"] = np.sin(2 * np.pi * df["Date"].dt.month / 12)
+    df["month_cos"] = np.cos(2 * np.pi * df["Date"].dt.month / 12)
+    df["day_of_year_sin"] = np.sin(2 * np.pi * df["Date"].dt.dayofyear / 365)
+    df["day_of_year_cos"] = np.cos(2 * np.pi * df["Date"].dt.dayofyear / 365)
+
+    df = df.drop(columns=["Date"])
+
+    return df
 
 
 def drop_high_missing_columns(df: pd.DataFrame, threshold: float) -> pd.DataFrame:
@@ -39,11 +57,6 @@ def encode_categorical_features(
     encoders = {}
 
     categorical_cols = df.select_dtypes(include=["object"]).columns.tolist()
-
-    if "Date" in df.columns:
-        df = df.drop(columns=["Date"])
-        if "Date" in categorical_cols:
-            categorical_cols.remove("Date")
 
     for col in categorical_cols:
         le = LabelEncoder()

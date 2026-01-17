@@ -19,3 +19,7 @@ numeric_columns:
   - Pressure3pm
   - Temp9am
   - Temp3pm
+  - month_sin
+  - month_cos
+  - day_of_year_sin
+  - day_of_year_cos
