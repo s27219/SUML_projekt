@@ -75,3 +75,7 @@ y_test:
   filepath: data/processed/y_test.csv
   save_args:
     index: false
+
+# model_selection
+model_selection_result:
+  type: MemoryDataset

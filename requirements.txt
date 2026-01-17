@@ -11,3 +11,6 @@ kagglehub
 kedro-datasets[pandas]
 pycaret==3.3.2
 kedro-datasets[binary,json]
+lightgbm
+xgboost
+catboost
