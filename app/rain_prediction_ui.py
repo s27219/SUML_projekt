@@ -276,9 +276,6 @@ else:
                         else:
                             row = df.iloc[0]
 
-                            st.write("### Parsed data:")
-                            st.dataframe(df)
-
                             weather_data = {
                                 "Location": str(row["Location"]),
                                 "MinTemp": float(row["MinTemp"]),
