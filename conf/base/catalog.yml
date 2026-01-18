@@ -4,6 +4,9 @@ raw_data:
   filepath: data/raw/raw_data.csv
 
 # eda
+raw_data_encoded:
+  type: MemoryDataset
+
 eda_analysis:
   type: MemoryDataset
 

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def _encode_binary_columns(df: pd.DataFrame) -> pd.DataFrame:
+def encode_binary_columns(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     for col in df.columns:
         if df[col].dtype == "object":
@@ -18,8 +18,9 @@ def _encode_binary_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def run_eda(df: pd.DataFrame) -> Dict[str, Any]:
+def run_eda(df: pd.DataFrame, df_encoded: pd.DataFrame) -> Dict[str, Any]:
     if "Date" in df.columns:
+        df = df.copy()
         df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
 
     numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
@@ -39,7 +40,6 @@ def run_eda(df: pd.DataFrame) -> Dict[str, Any]:
         "numeric_stats": df[numeric_cols].describe().round(2).to_dict() if numeric_cols else {},
     }
 
-    df_encoded = _encode_binary_columns(df)
     all_numeric = df_encoded.select_dtypes(include=[np.number]).columns.tolist()
 
     if len(all_numeric) >= 2:
@@ -60,8 +60,9 @@ def run_eda(df: pd.DataFrame) -> Dict[str, Any]:
     return analysis
 
 
-def generate_plots(df: pd.DataFrame) -> None:
+def generate_plots(df: pd.DataFrame, df_encoded: pd.DataFrame) -> None:
     if "Date" in df.columns:
+        df = df.copy()
         df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
 
     numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
@@ -99,7 +100,6 @@ def generate_plots(df: pd.DataFrame) -> None:
         fig.savefig(plots_dir / "categorical" / f"{col}.png", dpi=100)
         plt.close(fig)
 
-    df_encoded = _encode_binary_columns(df)
     all_numeric = df_encoded.select_dtypes(include=[np.number]).columns.tolist()
 
     if len(all_numeric) >= 2:
@@ -123,7 +123,6 @@ def generate_plots(df: pd.DataFrame) -> None:
         plt.close(fig)
 
     if "RainTomorrow" in df.columns and len(numeric_cols) >= 4:
-        df_encoded = _encode_binary_columns(df)
         if "RainTomorrow" in df_encoded.columns:
             target_corr = df_encoded[numeric_cols].corrwith(df_encoded["RainTomorrow"]).abs().sort_values(ascending=False)
             top_features = target_corr.head(5).index.tolist()
