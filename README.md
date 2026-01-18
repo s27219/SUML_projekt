@@ -26,3 +26,8 @@ Uruchom aplikację frontend
 ```
 streamlit run app/rain_prediction_ui.py
 ```
+
+## Wersja python użyta do projektu
+```
+Python 3.11.8
+```
