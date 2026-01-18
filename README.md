@@ -16,3 +16,13 @@ Uruchom jeden z pipeline'ów
 ```
 kedro run --pipeline <nazwa-pipeline'u>
 ```
+
+Uruchom aplikację backend
+```
+uvicorn app.api:app --reload
+```
+
+Uruchom aplikację frontend
+```
+streamlit run app/rain_prediction_ui.py
+```
